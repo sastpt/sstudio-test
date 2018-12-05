@@ -1,0 +1,1 @@
+data work.test; set sashelp.class; run;
