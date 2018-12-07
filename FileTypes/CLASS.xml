@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TABLE>
+   <DATA>
+      <Name> Alfred </Name>
+      <Sex> M </Sex>
+      <Age> 14 </Age>
+      <Height> 69 </Height>
+      <Weight> 112.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Alice </Name>
+      <Sex> F </Sex>
+      <Age> 13 </Age>
+      <Height> 56.5 </Height>
+      <Weight> 84 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Barbara </Name>
+      <Sex> F </Sex>
+      <Age> 13 </Age>
+      <Height> 65.3 </Height>
+      <Weight> 98 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Carol </Name>
+      <Sex> F </Sex>
+      <Age> 14 </Age>
+      <Height> 62.8 </Height>
+      <Weight> 102.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Henry </Name>
+      <Sex> M </Sex>
+      <Age> 14 </Age>
+      <Height> 63.5 </Height>
+      <Weight> 102.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> James </Name>
+      <Sex> M </Sex>
+      <Age> 12 </Age>
+      <Height> 57.3 </Height>
+      <Weight> 83 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Jane </Name>
+      <Sex> F </Sex>
+      <Age> 12 </Age>
+      <Height> 59.8 </Height>
+      <Weight> 84.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Janet </Name>
+      <Sex> F </Sex>
+      <Age> 15 </Age>
+      <Height> 62.5 </Height>
+      <Weight> 112.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Jeffrey </Name>
+      <Sex> M </Sex>
+      <Age> 13 </Age>
+      <Height> 62.5 </Height>
+      <Weight> 84 </Weight>
+   </DATA>
+   <DATA>
+      <Name> John </Name>
+      <Sex> M </Sex>
+      <Age> 12 </Age>
+      <Height> 59 </Height>
+      <Weight> 99.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Joyce </Name>
+      <Sex> F </Sex>
+      <Age> 11 </Age>
+      <Height> 51.3 </Height>
+      <Weight> 50.5 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Judy </Name>
+      <Sex> F </Sex>
+      <Age> 14 </Age>
+      <Height> 64.3 </Height>
+      <Weight> 90 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Louise </Name>
+      <Sex> F </Sex>
+      <Age> 12 </Age>
+      <Height> 56.3 </Height>
+      <Weight> 77 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Mary </Name>
+      <Sex> F </Sex>
+      <Age> 15 </Age>
+      <Height> 66.5 </Height>
+      <Weight> 112 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Philip </Name>
+      <Sex> M </Sex>
+      <Age> 16 </Age>
+      <Height> 72 </Height>
+      <Weight> 150 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Robert </Name>
+      <Sex> M </Sex>
+      <Age> 12 </Age>
+      <Height> 64.8 </Height>
+      <Weight> 128 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Ronald </Name>
+      <Sex> M </Sex>
+      <Age> 15 </Age>
+      <Height> 67 </Height>
+      <Weight> 133 </Weight>
+   </DATA>
+   <DATA>
+      <Name> Thomas </Name>
+      <Sex> M </Sex>
+      <Age> 11 </Age>
+      <Height> 57.5 </Height>
+      <Weight> 85 </Weight>
+   </DATA>
+   <DATA>
+      <Name> William </Name>
+      <Sex> M </Sex>
+      <Age> 15 </Age>
+      <Height> 66.5 </Height>
+      <Weight> 112 </Weight>
+   </DATA>
+</TABLE>
