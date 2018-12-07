@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><Task schemaVersion="5.4">
+   <Registration>
+      <Name>Sort Data</Name>
+      <Description>The Sort Data task enables the sorting of a table by any of its columns.</Description>
+      <GUID>9D9A8489-F1D2-4DC2-A317-608E0A6925B4</GUID>
+      <Procedures>SORT</Procedures>
+      <Version>3.8</Version>
+      <Links>
+         <Link href="http://documentation.sas.com/?softwareId=STUDIOMID&amp;softwareVersion=3.8&amp;softwareContextId=tasks&amp;requestor=inapp">SAS Studio Task Reference Guide</Link>
+         <Link href=""> </Link>
+         <Link href=""> </Link>
+		 <Link href="http://documentation.sas.com/?softwareId=MVADOC&amp;softwareVersion=3.8_9.4&amp;softwareContextId=proc_sort&amp;requestor=inapp">The SORT Procedure</Link>
+         <Link href=""> </Link>
+         <Link href=""> </Link>
+         <Link href="http://support.sas.com/training/studio">SAS Tutorials</Link>
+      </Links>
+	</Registration>
+   
+   
+	<Metadata>
+		
+      <DataSources>
+         <DataSource name="dataset" where="true">
+         <Roles>
+            <Role exclude="dropvars" maxVars="0" minVars="1" name="sortvars" order="true" type="A">Sort by:</Role>
+            <Role exclude="sortvars" maxVars="0" minVars="0" name="dropvars" type="A">Columns to drop:</Role>
+         </Roles>
+         </DataSource>
+
+      </DataSources>
+      
+      <Options>
+         <Option inputType="string" name="datatab">DATA</Option>
+         <Option inputType="string" name="datagrp">DATA</Option>
+         <Option inputType="string" name="rolesgrp">ROLES</Option>
+      
+         <Option inputType="string" name="optiontab">OPTIONS</Option> 
+         <Option inputType="string" name="ordergrp">OUTPUT ORDER</Option>
+         <Option inputType="combobox" name="ordercombo">Sort order:</Option>
+         <Option inputType="string" name="ascendingChoice">Ascending</Option>
+         <Option inputType="string" name="descendingChoice">Descending</Option>
+         <Option inputType="combobox" name="maintainOrder">Maintain original order within groups:</Option>
+         <Option inputType="string" name="yesChoice">Yes</Option>
+         <Option inputType="string" name="noChoice">No (potentially faster)</Option>
+         <Option inputType="string" name="dupgrp">DUPLICATE RECORDS</Option>
+         <Option defaultValue="1" inputType="radio" name="keepAll" variable="keepObs">Keep all records</Option>
+         <Option inputType="radio" name="keepFirst" variable="keepObs">Keep first record of each 'Sort by' group</Option>
+         <Option inputType="string" name="resultsgrp">RESULTS</Option>
+         <Option defaultValue="0" inputType="checkbox" name="overwrite">Sort in place</Option>
+         <Option defaultValue="work.sortDS" inputType="outputdata" name="outputDS" required="true" unique="true">Output data set</Option>
+         <Option inputType="string" name="noDropMsg">No columns are dropped when 'Sort in place' is selected</Option>
+         <Option inputType="string" name="inPlaceMsg">Sort in place does not use the 'Columns to drop' list and keeps all duplicate records</Option>
+         <Option inputType="string" name="whereMsg">Sort in place does not honor the data set filter.</Option>
+      </Options>
+      
+   </Metadata>
+   
+   <UI>
+
+      <Container option="datatab">
+         <Group open="true" option="datagrp">
+            <DataItem data="dataset"/>
+            <OptionItem option="whereMsg"/>
+         </Group>
+         
+         <Group open="true" option="rolesgrp">
+				<RoleItem role="sortvars"/>
+				<RoleItem role="dropvars"/>
+            <OptionItem option="noDropMsg"/>
+         </Group>
+      </Container>
+      
+      <Container option="optiontab">
+         <Group open="true" option="ordergrp">
+            <OptionChoice option="ordercombo">
+               <OptionItem option="ascendingChoice"/>
+               <OptionItem option="descendingChoice"/>
+            </OptionChoice>
+            <OptionChoice option="maintainOrder">
+               <OptionItem option="yesChoice"/>
+               <OptionItem option="noChoice"/>
+            </OptionChoice>
+         </Group>
+         <Group option="dupgrp">
+            <OptionItem option="keepAll"/>
+            <OptionItem option="keepFirst"/>
+         </Group>
+         <Group option="resultsgrp">
+            <OptionItem option="overwrite"/>
+            <OptionItem option="outputDS"/>
+            <OptionItem option="inPlaceMsg"/>
+         </Group>
+      </Container>
+
+   </UI>
+   
+   <Dependencies>
+      <Dependency condition="($overwrite == 1)">
+         <Target action="hide" conditionResult="true" option="outputDS"/>
+         <Target action="show" conditionResult="false" option="outputDS"/>
+         <Target action="show" conditionResult="true" option="inPlaceMsg"/>
+         <Target action="hide" conditionResult="false" option="inPlaceMsg"/>
+         <Target action="show" conditionResult="true" option="noDropMsg"/>
+         <Target action="hide" conditionResult="false" option="noDropMsg"/>
+         <Target action="hide" conditionResult="true" option="dropvars"/>
+         <Target action="show" conditionResult="false" option="dropvars"/>
+         <Target action="hide" conditionResult="true" option="dupgrp"/>
+         <Target action="show" conditionResult="false" option="dupgrp"/>
+         <Target action="show" conditionResult="true" option="whereMsg"/>
+         <Target action="hide" conditionResult="false" option="whereMsg"/>         
+      </Dependency>
+      
+      <!--Dependency condition="$dataset.getWhereClause() == ''">
+         <Target conditionResult="true" option="overwrite" action="show"/>
+         <Target conditionResult="false" option="overwrite" action="hide"/>
+      </Dependency-->
+   </Dependencies>
+
+  	<CodeTemplate>
+		<![CDATA[
+proc sort data=$dataset
+#if (!$overwrite || $overwrite == 0 ) out=$outputDS 
+#if ($dropvars.size() > 0)(drop = #foreach($item in $dropvars) $item #end)#end #end
+#if ($keepObs == 'keepFirst' && $overwrite == 0) nodupkey #end
+#if ($maintainOrder == 'yesChoice') equals
+#else noequals #end
+;
+#if($dataset.getWhereClause() != '' && $overwrite == '0') where $dataset.getWhereClause(); #end
+by 
+#if ($ordercombo == 'descendingChoice') descending #end
+#foreach($item in $sortvars) $item #end
+;
+run;
+
+		]]>
+	</CodeTemplate>      
+</Task>
