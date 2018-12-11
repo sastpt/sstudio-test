@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Task schemaVersion="6.3">
+    <Registration>
+        <Name>Filter Data</Name>
+        <Description>The Filter Data task creates a new data set by filtering observations based on the specified criteria.</Description>
+        <GUID>209039f4-f7e6-4916-97d1-6637f0ba2127</GUID>
+        <Procedures>SQL UNIVARIATE</Procedures>
+        <Version>4.3</Version>
+        <Links>
+            <Link href="http://documentation.sas.com/?softwareId=STUDIOBASIC&amp;softwareVersion=4.3&amp;softwareContextId=tasks&amp;requestor=inapp">SAS Studio Task Reference Guide</Link>
+            <Link href=""/>
+            <Link href=""/>
+            <Link href="http://documentation.sas.com/?softwareId=MVADOC&amp;softwareVersion=4.3_9.4&amp;softwareContextId=proc_sql&amp;requestor=inapp">The SQL Procedure</Link>
+            <Link href=""/>
+            <Link href=""/>
+            <Link href="http://documentation.sas.com/?softwareId=MVADOC&amp;softwareVersion=4.3_9.4&amp;softwareContextId=proc_univariate&amp;requestor=inapp">The UNIVARIATE Procedure</Link>
+            <Link href=""/>
+            <Link href=""/>
+            <Link href="http://support.sas.com/training/studio">SAS Tutorials</Link>
+        </Links>
+    </Registration>
+    <Metadata>
+        <DataSources>
+            <DataSource name="dataset">
+                <Roles>
+                    <Role maxVars="1" minVars="1" name="var1">Variable 1:</Role>
+                    <Role maxVars="1" minVars="1" name="var2">Variable 2:</Role>
+                    <Role maxVars="1" minVars="1" name="var3">Variable 3:</Role>
+                    <Role indent="2" maxVars="0" minVars="1" name="includevars">Variables to include:</Role>
+                </Roles>
+            </DataSource>
+        </DataSources>
+        <Options>
+            <Option inputType="string" name="datatab">DATA</Option>
+            <Option inputType="string" name="datagrp">DATA</Option>
+            <Option inputType="string" name="var1grp">FILTER 1</Option>
+            <Option inputType="combobox" name="oper1">Comparison:</Option>
+            <Option inputType="combobox" name="type1">Value type:</Option>
+            <Option inputType="combobox" name="type1a">Value type:</Option>
+            <Option indent="1" inputType="distinct" name="values1" source="var1">Value:</Option>
+            <Option indent="1" inputType="inputtext" name="specify1" required="true">Value:</Option>
+            <Option indent="1" inputType="numbertext" maxValue="100"
+                minValue="1" name="pctile1" required="true">Value:</Option>
+            <Option inputType="combobox" name="boolean1">Logical:</Option>
+            <Option inputType="string" name="var2grp">FILTER 2</Option>
+            <Option inputType="combobox" name="oper2">Comparison:</Option>
+            <Option inputType="combobox" name="type2">Value type:</Option>
+            <Option inputType="combobox" name="type2a">Value type:</Option>
+            <Option inputType="distinct" name="values2" source="var2">Value:</Option>
+            <Option inputType="inputtext" name="specify2" required="true">Value:</Option>
+            <Option inputType="numbertext" maxValue="100" minValue="1"
+                name="pctile2" required="true">Value:</Option>
+            <Option defaultValue="" inputType="combobox" name="boolean2">Logical:</Option>
+            <Option inputType="string" name="var3grp">FILTER 3</Option>
+            <Option inputType="combobox" name="oper3">Comparison:</Option>
+            <Option inputType="combobox" name="type3">Value type:</Option>
+            <Option inputType="combobox" name="type3a">Value type:</Option>
+            <Option inputType="distinct" name="values3" source="var3">Value:</Option>
+            <Option inputType="inputtext" name="specify3" required="true">Value:</Option>
+            <Option inputType="numbertext" maxValue="100" minValue="1"
+                name="pctile3" required="true">Value:</Option>
+            <Option defaultValue="" inputType="combobox" name="boolean3">Logical:</Option>
+            <Option inputType="string" name="noChoice">(none)</Option>
+            <Option inputType="string" name="andChoice">AND</Option>
+            <Option inputType="string" name="orChoice">OR</Option>
+            <Option inputType="string" name="EQ">Equal</Option>
+            <Option inputType="string" name="LT">Less than</Option>
+            <Option inputType="string" name="GT">Greater than</Option>
+            <Option inputType="string" name="LE">Less than or equal</Option>
+            <Option inputType="string" name="GE">Greater than or equal</Option>
+            <Option inputType="string" name="NE">Not equal</Option>
+            <Option inputType="string" name="distinctValue">Select distinct value</Option>
+            <Option inputType="string" name="specifyValue">Enter a value</Option>
+            <Option inputType="string" name="pctValue">Enter a percentile</Option>
+            <Option inputType="string" name="outputgrp">OUTPUT DATA SET</Option>
+            <Option defaultValue="filter" indent="1"
+                inputType="outputdata" name="outputDS" required="true">Data set name:</Option>
+            <Option indent="1" inputType="combobox" name="varselCombo">Variables to include:</Option>
+            <Option inputType="string" name="allvars">All variables</Option>
+            <Option inputType="string" name="selvars">Selected variables</Option>
+            <Option inputType="string" name="showDataGroup">Show Output Data</Option>
+            <Option defaultValue="0" inputType="checkbox" name="showData">Show output data</Option>
+            <Option defaultValue="showSubsetDataChoice"
+                inputType="combobox" name="showDataCombo">Show:</Option>
+            <Option inputType="string" name="showSubsetDataChoice">Show subset of output data</Option>
+            <Option inputType="string" name="showAllDataChoice">Show all output data</Option>
+            <Option decimalPlaces="0" defaultValue="10" increment="1"
+                indent="1" inputType="numstepper"
+                invalidMessage="Enter an integer greater than 0 for the number of observations to be shown"
+                minValue="1"
+                missingMessage="Enter an integer greater than 0 for the number of observations to be shown"
+                name="subsetNobs"
+                promptMessage="Enter an integer greater than 0 for the number of observations to be shown"
+                rangeMessage="Enter an integer greater than 0 for the number of observations to be shown" required="true">Number of observations to show:</Option>
+            <Option inputType="string" name="printTitle">Filtered data set</Option>
+            <!-- Code comments -->
+            <Option inputType="string" name="commentPercentile">Compute percentile values</Option>
+        </Options>
+    </Metadata>
+    <UI>
+        <Container option="datatab">
+            <Group open="true" option="datagrp">
+                <DataItem data="dataset"/>
+            </Group>
+            <Group open="true" option="var1grp">
+                <RoleItem role="var1"/>
+                <OptionChoice option="oper1">
+                    <OptionItem option="LT"/>
+                    <OptionItem option="LE"/>
+                    <OptionItem option="EQ"/>
+                    <OptionItem option="NE"/>
+                    <OptionItem option="GT"/>
+                    <OptionItem option="GE"/>
+                </OptionChoice>
+                <OptionChoice option="type1">
+                    <OptionItem option="specifyValue"/>
+                    <OptionItem option="distinctValue"/>
+                    <OptionItem option="pctValue"/>
+                </OptionChoice>
+                <OptionChoice option="type1a">
+                    <OptionItem option="specifyValue"/>
+                    <OptionItem option="distinctValue"/>
+                </OptionChoice>
+                <OptionItem option="values1"/>
+                <OptionItem option="specify1"/>
+                <OptionItem option="pctile1"/>
+                <OptionChoice option="boolean1">
+                    <OptionItem option="noChoice"/>
+                    <OptionItem option="andChoice"/>
+                    <OptionItem option="orChoice"/>
+                </OptionChoice>
+            </Group>
+            <Group open="true" option="var2grp">
+                <RoleItem role="var2"/>
+                <OptionChoice option="oper2">
+                    <OptionItem option="LT"/>
+                    <OptionItem option="LE"/>
+                    <OptionItem option="EQ"/>
+                    <OptionItem option="NE"/>
+                    <OptionItem option="GT"/>
+                    <OptionItem option="GE"/>
+                </OptionChoice>
+                <OptionChoice option="type2">
+                    <OptionItem option="specifyValue"/>
+                    <OptionItem option="distinctValue"/>
+                    <OptionItem option="pctValue"/>
+                </OptionChoice>
+                <OptionChoice option="type2a">
+                    <OptionItem option="specifyValue"/>
+                    <OptionItem option="distinctValue"/>
+                </OptionChoice>
+                <OptionItem option="values2"/>
+                <OptionItem option="specify2"/>
+                <OptionItem option="pctile2"/>
+                <OptionChoice option="boolean2">
+                    <OptionItem option="noChoice"/>
+                    <OptionItem option="andChoice"/>
+                    <OptionItem option="orChoice"/>
+                </OptionChoice>
+            </Group>
+            <Group open="true" option="var3grp">
+                <RoleItem role="var3"/>
+                <OptionChoice option="oper3">
+                    <OptionItem option="LT"/>
+                    <OptionItem option="LE"/>
+                    <OptionItem option="EQ"/>
+                    <OptionItem option="NE"/>
+                    <OptionItem option="GT"/>
+                    <OptionItem option="GE"/>
+                </OptionChoice>
+                <OptionChoice option="type3">
+                    <OptionItem option="specifyValue"/>
+                    <OptionItem option="distinctValue"/>
+                    <OptionItem option="pctValue"/>
+                </OptionChoice>
+                <OptionChoice option="type3a">
+                    <OptionItem option="specifyValue"/>
+                    <OptionItem option="distinctValue"/>
+                </OptionChoice>
+                <OptionItem option="values3"/>
+                <OptionItem option="specify3"/>
+                <OptionItem option="pctile3"/>
+            </Group>
+            <Group open="false" option="outputgrp">
+                <OptionItem option="outputDS"/>
+                <OptionChoice option="varselCombo">
+                    <OptionItem option="allvars"/>
+                    <OptionItem option="selvars"/>
+                </OptionChoice>
+                <RoleItem role="includevars"/>
+                <Group open="true" option="showDataGroup">
+                    <OptionItem option="showData"/>
+                    <OptionChoice option="showDataCombo">
+                        <OptionItem option="showSubsetDataChoice"/>
+                        <OptionItem option="showAllDataChoice"/>
+                    </OptionChoice>
+                    <OptionItem option="subsetNobs"/>
+                </Group>
+            </Group>
+        </Container>
+    </UI>
+    <Dependencies>
+        <Dependency condition="($boolean1 == 'noChoice')">
+            <Target action="hide" conditionResult="true" option="var2grp"/>
+            <Target action="show" conditionResult="false" option="var2grp"/>
+        </Dependency>
+        <Dependency condition="(!$boolean2 || $boolean2 == 'noChoice' )">
+            <Target action="hide" conditionResult="true" option="var3grp"/>
+            <Target action="show" conditionResult="false" option="var3grp"/>
+        </Dependency>
+        <Dependency condition="(($var1.size() > 0) &amp;&amp; ($var1.get(0).get('type') == 'Char'))">
+            <Target action="hide" conditionResult="true" option="type1"/>
+            <Target action="show" conditionResult="false" option="type1"/>
+            <Target action="show" conditionResult="true" option="type1a"/>
+            <Target action="hide" conditionResult="false" option="type1a"/>
+        </Dependency>
+        <Dependency condition="(($var2.size() > 0) &amp;&amp; ($var2.get(0).get('type') == 'Char'))">
+            <Target action="hide" conditionResult="true" option="type2"/>
+            <Target action="show" conditionResult="false" option="type2"/>
+            <Target action="show" conditionResult="true" option="type2a"/>
+            <Target action="hide" conditionResult="false" option="type2a"/>
+        </Dependency>
+        <Dependency condition="(($var3.size() > 0) &amp;&amp; ($var3.get(0).get('type') == 'Char'))">
+            <Target action="hide" conditionResult="true" option="type3"/>
+            <Target action="show" conditionResult="false" option="type3"/>
+            <Target action="show" conditionResult="true" option="type3a"/>
+            <Target action="hide" conditionResult="false" option="type3a"/>
+        </Dependency>
+        <Dependency condition="($type1 == 'specifyValue' || $type1a == 'specifyValue')">
+            <Target action="show" conditionResult="true" option="specify1"/>
+            <Target action="hide" conditionResult="true" option="values1"/>
+            <Target action="hide" conditionResult="true" option="pctile1"/>
+        </Dependency>
+        <Dependency condition="($type1 == 'distinctValue' || $type1a == 'distinctValue')">
+            <Target action="hide" conditionResult="true" option="specify1"/>
+            <Target action="show" conditionResult="true" option="values1"/>
+            <Target action="hide" conditionResult="true" option="pctile1"/>
+        </Dependency>
+        <Dependency condition="($type1 == 'pctValue')">
+            <Target action="hide" conditionResult="true" option="specify1"/>
+            <Target action="hide" conditionResult="true" option="values1"/>
+            <Target action="show" conditionResult="true" option="pctile1"/>
+        </Dependency>
+        <Dependency condition="(!($boolean1 == 'noChoice') &amp;&amp; ($type2 == 'specifyValue' || $type2a == 'specifyValue'))">
+            <Target action="show" conditionResult="true" option="specify2"/>
+            <Target action="hide" conditionResult="true" option="values2"/>
+            <Target action="hide" conditionResult="true" option="pctile2"/>
+        </Dependency>
+        <Dependency condition="($type2 == 'distinctValue' || $type2a == 'distinctValue')">
+            <Target action="hide" conditionResult="true" option="specify2"/>
+            <Target action="show" conditionResult="true" option="values2"/>
+            <Target action="hide" conditionResult="true" option="pctile2"/>
+        </Dependency>
+        <Dependency condition="($type2 == 'pctValue')">
+            <Target action="hide" conditionResult="true" option="specify2"/>
+            <Target action="hide" conditionResult="true" option="values2"/>
+            <Target action="show" conditionResult="true" option="pctile2"/>
+        </Dependency>
+        <Dependency condition="(!($boolean1 == 'noChoice') &amp;&amp; !($boolean2 == 'noChoice') &amp;&amp; ($type3 == 'specifyValue' || $type3a == 'specifyValue'))">
+            <Target action="show" conditionResult="true" option="specify3"/>
+            <Target action="hide" conditionResult="true" option="values3"/>
+            <Target action="hide" conditionResult="true" option="pctile3"/>
+        </Dependency>
+        <Dependency condition="($type3 == 'distinctValue' || $type3a == 'distinctValue')">
+            <Target action="hide" conditionResult="true" option="specify3"/>
+            <Target action="show" conditionResult="true" option="values3"/>
+            <Target action="hide" conditionResult="true" option="pctile3"/>
+        </Dependency>
+        <Dependency condition="($type3 == 'pctValue')">
+            <Target action="hide" conditionResult="true" option="specify3"/>
+            <Target action="hide" conditionResult="true" option="values3"/>
+            <Target action="show" conditionResult="true" option="pctile3"/>
+        </Dependency>
+        <Dependency condition="($showData == '1')">
+            <Target action="show" conditionResult="true" option="showDataCombo"/>
+            <Target action="hide" conditionResult="false" option="showDataCombo"/>
+        </Dependency>
+        <Dependency condition="($showData == '1' &amp;&amp; $showDataCombo == 'showSubsetDataChoice')">
+            <Target action="show" conditionResult="true" option="subsetNobs"/>
+            <Target action="hide" conditionResult="false" option="subsetNobs"/>
+        </Dependency>
+        <Dependency condition="($varselCombo=='allvars')">
+            <Target action="hide" conditionResult="true" option="includevars"/>
+            <Target action="show" conditionResult="false" option="includevars"/>
+        </Dependency>
+    </Dependencies>
+    <CodeTemplate><![CDATA[
+
+#if($pctile1 || $pctile2 || $pctile3) 
+/* $commentPercentile */
+proc univariate data=$dataset noprint;
+   var #if($pctile1) $var1.get(0) #end #if($pctile2) $var2.get(0) #end #if($pctile3) $var3.get(0) #end;
+   output out=_tmppct pctlpts= #if($pctile1) $pctile1 #end #if($pctile2) $pctile2 #end #if($pctile3) $pctile3 #end
+      pctlpre= #if($pctile1) $var1.get(0) #end #if($pctile2) $var2.get(0) #end #if($pctile3) $var3.get(0) #end;
+run;
+data _null_;
+   set _tmppct;
+   #if($pctile1) call symput('pctile1',$var1.get(0)$pctile1); #end
+   #if($pctile2) call symput('pctile2',$var2.get(0)$pctile2); #end
+   #if($pctile3) call symput('pctile3',$var3.get(0)$pctile3); #end   
+run;
+   
+#end
+
+proc sql noprint;
+   create table $outputDS as select
+   #if($varselCombo == "allvars") * 
+   #else
+      #set($numinclude = $includevars.size())
+      #set($index = 1)
+      #foreach($item in $includevars)$item #if($index < $numinclude),#end#set($index = $index + 1)
+      #end
+   #end
+   from $dataset
+   where($var1.get(0) $oper1 
+   #if ($type1 == 'specifyValue' || $type1a == 'specifyValue') #set($val1 = $specify1) 
+      #elseif($type1 == 'distinctValue' || $type1a == 'distinctValue')
+         #if($var1.get(0).get('format') != '')
+            #set ($val1 = "input($CTMUtil.quoteString($values1) ,$var1.get(0).get('format') )")
+         #else #set($val1 = $values1)
+         #end
+      #else #set($val1 = '&pctile1')
+   #end
+   #if ($var1.get(0).get('type') == 'Char') $CTMUtil.doubleQuoteString($val1)
+   #else $val1
+   #end
+   #if ($var2.get(0))  
+      #if($boolean1 == 'andChoice') AND
+      #elseif ($boolean1 == 'orChoice') OR #end
+      $var2.get(0) $oper2
+   #if ($type2 == 'specifyValue' || $type2a == 'specifyValue') #set($val2 = $specify2) 
+      #elseif($type2 == 'distinctValue' || $type2a == 'distinctValue')
+         #if($var2.get(0).get('format') != '')
+            #set ($val2 = "input($CTMUtil.quoteString($values2) ,$var2.get(0).get('format') )")
+         #else #set($val2 = $values2)
+         #end
+      #else #set($val2 = '&pctile2')
+   #end
+      #if ($var2.get(0).get('type') == 'Char') $CTMUtil.doubleQuoteString($val2)
+      #else $val2
+      #end
+   #end
+   #if ($var3.get(0))  
+      #if($boolean2 == 'andChoice') AND
+      #elseif ($boolean2 == 'orChoice') OR #end
+      $var3.get(0) $oper3
+   #if ($type3 == 'specifyValue' || $type3a == 'specifyValue') #set($val3 = $specify3) 
+      #elseif($type3 == 'distinctValue' || $type3a == 'distinctValue')
+         #if($var3.get(0).get('format') != '')
+            #set ($val3 = "input($CTMUtil.quoteString($values3) ,$var3.get(0).get('format') )")
+         #else #set($val3 = $values3)
+         #end
+      #else #set($val3 = '&pctile3')
+   #end      
+      #if ($var3.get(0).get('type') == 'Char') $CTMUtil.doubleQuoteString($val3)
+      #else $val3
+      #end
+   #end
+   );
+quit;
+
+#if ($showData == '1')
+proc print data=$outputDS#if($showDataCombo == 'showSubsetDataChoice')(obs=$subsetNobs)#end;
+title "$printTitle - $outputDS";
+run;
+title;
+#end
+#if($pctile1 || $pctile2 || $pctile3)
+   proc delete data=_tmppct;
+   run;
+#end
+
+]]></CodeTemplate>
+    
+
+<TemplateValues version="3.8">
+<![CDATA[
+{"values1":"14","showData":"0","type3a":"specifyValue","LT":"Less than","sasOS":"Linux LIN X64 3.10.0-327.10.1.el7.x86_64","pctile2":"","printTitle":"Filtered data set","pctile1":"","pctile3":"","orChoice":"OR","distinctValue":"Select distinct value","noChoice":"(none)","showDataCombo":"showSubsetDataChoice","boolean2":"noChoice","varselCombo":"allvars","boolean3":"","showAllDataChoice":"Show all output data","boolean1":"noChoice","var2grp":"FILTER 2","values2":"","values3":"","includevars":"","type3":"specifyValue","type2":"specifyValue","type1":"distinctValue","specify3":"","EQ":"Equal","datatab":"DATA","specify1":"","commentPercentile":"Compute percentile values","specify2":"","showDataGroup":"Show Output Data","NE":"Not equal","var1grp":"FILTER 1","andChoice":"AND","type1a":"specifyValue","subsetNobs":"10","specifyValue":"Enter a value","var3":"","var2":"","var1":"json:[{\"value\":\"Age\",\"type\":\"Numeric\",\"length\":8,\"format\":\"\",\"informat\":\"\",\"className\":\"RoleObject\"}]","GE":"Greater than or equal","type2a":"specifyValue","selvars":"Selected variables","outputgrp":"OUTPUT DATA SET","showSubsetDataChoice":"Show subset of output data","GT":"Greater than","oper1":"EQ","sasVersion":"3.03","oper2":"LT","oper3":"LT","pctValue":"Enter a percentile","LE":"Less than or equal","dataset":{"librarytable":"SASHELP.CLASS"},"var3grp":"FILTER 3","allvars":"All variables","datagrp":"DATA","outputDS":"testFilter"}
+]]>
+</TemplateValues>
+</Task>
