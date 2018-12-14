@@ -1,3 +1,4 @@
+/* Create Special Variable Names */
 %macro makeRegressorData(nBy=1,nByFixedSize=1,nObs=100,nCont=4,
                          nClass=3,nLev1=3,nLev2=5,nLev3=7);
    data 'Special_Var'n;
